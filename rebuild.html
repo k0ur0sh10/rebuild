@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="REBUILD">
+<title>THE REBUILD — KOUROSH</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--black:#0a0a0a;--dark:#141414;--card:#191919;--card2:#1f1f1f;--border:#2c2c2c;
+--red:#FF4530;--rdim:#A8341F;--gold:#E0B84C;--white:#F2EFEA;--grey:#A0A0A0;--light:#DAD7D2;
+--blue:#5BA8FF;--green:#4FE8A0;--purp:#B488FF;
+--head:'Arial Narrow','Helvetica Neue',Impact,sans-serif;
+--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+--body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+html{background:#0a0a0a}
+body{background:#0a0a0a;color:#F2EFEA;font-family:var(--body);min-height:100vh;padding-bottom:90px;-webkit-tap-highlight-color:transparent}
+
+.ti{display:none}
+.panel{display:none;padding:18px 14px;max-width:920px;margin:0 auto}
+#t1:checked~.wrap .panel.p1,#t2:checked~.wrap .panel.p2,#t3:checked~.wrap .panel.p3,#t4:checked~.wrap .panel.p4,#t5:checked~.wrap .panel.p5,#t6:checked~.wrap .panel.p6,#t7:checked~.wrap .panel.p7,#t8:checked~.wrap .panel.p8{display:block}
+
+.hero{padding:18px 14px 14px;border-bottom:1px solid var(--border)}
+.hlbl{font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;line-height:1.5}
+.htitle{font-family:var(--head);font-weight:700;font-size:30px;line-height:.95;letter-spacing:1px;margin-bottom:9px;text-transform:uppercase;color:var(--white)}
+.htitle span{color:var(--red)}
+.hsub{font-size:12px;color:var(--light);line-height:1.6;max-width:560px}
+.hsub strong{color:var(--white)}
+
+.tab-bar{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;background:var(--black);position:sticky;top:0;z-index:99;-webkit-overflow-scrolling:touch}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-bar label{padding:13px 14px;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer}
+.tab-bar label:active{color:var(--white)}
+#t1:checked~.wrap .tab-bar .l1,#t2:checked~.wrap .tab-bar .l2,#t3:checked~.wrap .tab-bar .l3,#t4:checked~.wrap .tab-bar .l4,#t5:checked~.wrap .tab-bar .l5,#t6:checked~.wrap .tab-bar .l6,#t7:checked~.wrap .tab-bar .l7,#t8:checked~.wrap .tab-bar .l8{color:var(--red);border-bottom-color:var(--red)}
+
+.sec{font-family:var(--head);font-weight:700;font-size:26px;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase;color:var(--white)}
+.sec span{color:var(--red)}
+.secsub{font-size:12px;color:var(--light);margin-bottom:14px;line-height:1.55;max-width:580px}
+.card{background:var(--card);border:1px solid var(--border);padding:15px;margin-bottom:10px;border-radius:6px}
+.ct{font-family:var(--head);font-weight:700;font-size:18px;letter-spacing:.5px;margin-bottom:7px;text-transform:uppercase;color:var(--white)}
+.ct span{color:var(--red)}
+
+/* CALLOUTS — near-black bg, BRIGHT heading, bright body */
+.cal{padding:13px 15px;margin-bottom:10px;border-radius:6px;border:1px solid}
+.cal p{font-size:12px;color:#EAE7E2;line-height:1.65}
+.cal .hlt{font-family:var(--head);font-weight:700;font-size:14px;letter-spacing:.5px;display:block;margin-bottom:5px;text-transform:uppercase}
+.cal strong{color:#fff}
+.cal-red{background:#1c0f0c;border-color:#5a2418}
+.cal-red .hlt{color:var(--red)}
+.cal-blue{background:#0c1622;border-color:#264a72}
+.cal-blue .hlt{color:var(--blue)}
+.cal-green{background:#0b1813;border-color:#1f5a3e}
+.cal-green .hlt{color:var(--green)}
+.cal-gold{background:#181308;border-color:#5e4f1f}
+.cal-gold .hlt{color:var(--gold)}
+.cal-purp{background:#140d1f;border-color:#3f2f5c}
+.cal-purp .hlt{color:var(--purp)}
+
+.tag{font-family:var(--mono);font-size:8px;letter-spacing:.5px;padding:3px 7px;border:1px solid;display:inline-block;border-radius:3px;font-weight:500}
+.tr{color:var(--red);border-color:#5a2418;background:#1c0f0c}
+.tg{color:var(--gold);border-color:#5e4f1f;background:#181308}
+.tb2{color:var(--blue);border-color:#264a72;background:#0c1622}
+.tgn{color:var(--green);border-color:#1f5a3e;background:#0b1813}
+
+.day-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;flex-wrap:wrap;gap:9px}
+.day-date{font-family:var(--head);font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase;color:var(--white)}
+.day-date span{color:var(--red)}
+.streak-box{display:flex;gap:7px}
+.streak{background:var(--card);border:1px solid var(--border);padding:7px 11px;text-align:center;min-width:56px;border-radius:6px}
+.streak-n{font-family:var(--head);font-weight:700;font-size:23px;line-height:1;color:var(--gold)}
+.streak-l{font-family:var(--mono);font-size:7px;color:var(--grey);letter-spacing:.5px;margin-top:2px;text-transform:uppercase}
+
+.hab{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);padding:13px 13px;margin-bottom:8px;cursor:pointer;user-select:none;border-radius:6px}
+.hab:active{background:var(--card2)}
+.hab.done{border-color:var(--green);background:#0b1813}
+.hab-check{width:26px;height:26px;border:2px solid #444;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent}
+.hab.done .hab-check{background:var(--green);border-color:var(--green);color:#000}
+.hab-body{flex:1;min-width:0}
+.hab-name{font-size:13px;color:var(--white);font-weight:600;line-height:1.3}
+.hab.done .hab-name{color:var(--green)}
+.hab-sub{font-size:10.5px;color:var(--grey);margin-top:2px;line-height:1.4}
+.hab-tier{font-family:var(--mono);font-size:7px;letter-spacing:.5px;padding:2px 5px;border:1px solid #5a2418;color:var(--red);background:#1c0f0c;flex-shrink:0;border-radius:3px}
+.hab-tier.t2{border-color:#264a72;color:var(--blue);background:#0c1622}
+
+.day-progress{margin:14px 0}
+.dp-bar{height:8px;background:#2c2c2c;border-radius:4px;overflow:hidden}
+.dp-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--green));transition:width .3s;width:0%}
+.dp-txt{font-family:var(--mono);font-size:9px;color:var(--grey);margin-top:6px;letter-spacing:.5px}
+
+.btn{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:11px 15px;background:var(--card);border:1px solid var(--border);color:var(--light);cursor:pointer;text-align:center;border-radius:6px}
+.btn:active{border-color:var(--red);color:var(--white)}
+.btn-red{background:#1c0f0c;border-color:#5a2418;color:var(--red)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+
+/* STEPS — compact, immediately visible */
+.step{display:flex;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--border);padding:11px 12px;margin-bottom:7px;cursor:pointer;user-select:none;border-radius:6px}
+.step:active{background:var(--card2)}
+.step.done{border-color:var(--green);background:#0b1813}
+.step-check{width:24px;height:24px;border:2px solid #444;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;margin-top:1px}
+.step.done .step-check{background:var(--green);border-color:var(--green);color:#000}
+.step-body{flex:1;min-width:0}
+.step-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.step-time{font-family:var(--mono);font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.5px;flex-shrink:0}
+.step.done .step-time{color:var(--green)}
+.step-name{font-size:13px;color:var(--white);font-weight:600;line-height:1.3}
+.step.done .step-name{color:var(--green);text-decoration:line-through;text-decoration-color:rgba(79,232,160,.5)}
+.step-desc{font-size:11px;color:var(--light);margin-top:4px;line-height:1.5}
+
+.routine-head{display:flex;justify-content:space-between;align-items:center;margin:4px 0 10px}
+.routine-prog{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.5px;background:var(--card);border:1px solid var(--border);padding:5px 11px;border-radius:6px;font-weight:600}
+
+.j-field{margin-bottom:15px}
+.j-label{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:7px;display:block}
+.j-label span{color:var(--grey);text-transform:none;letter-spacing:0;font-size:10px}
+textarea,input[type=text]{width:100%;background:var(--dark);border:1px solid var(--border);color:var(--white);font-family:var(--body);font-size:13px;padding:11px;border-radius:6px;resize:vertical;line-height:1.6;-webkit-appearance:none}
+textarea:focus,input:focus{outline:none;border-color:var(--red)}
+textarea{min-height:64px}
+.mood-row{display:flex;gap:6px;flex-wrap:wrap}
+.mood{flex:1;min-width:52px;background:var(--dark);border:2px solid var(--border);padding:10px 5px;text-align:center;cursor:pointer;border-radius:8px;font-size:10.5px;color:var(--grey);transition:transform .1s}
+.mood:active{transform:scale(.94)}
+.mood.sel{border-color:var(--gold);background:#181308;color:var(--white);box-shadow:0 0 0 1px var(--gold)}
+.mood.sel .mood-e{transform:scale(1.15)}
+.mood-e{font-size:19px;display:block;margin-bottom:3px;transition:transform .15s;filter:grayscale(.4)}
+.mood.sel .mood-e{filter:grayscale(0)}
+.autosave-tag{font-family:var(--mono);font-size:8px;color:var(--green);letter-spacing:.5px;opacity:0;transition:opacity .3s}
+.autosave-tag.show{opacity:1}
+
+.rule{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.rule:last-child{border-bottom:none}
+.rn{font-family:var(--head);font-weight:700;font-size:26px;color:var(--red);line-height:.9;min-width:30px}
+.rtx strong{display:block;font-size:13px;color:var(--white);margin-bottom:3px}
+.rtx p{font-size:11.5px;color:var(--light);line-height:1.6}
+.rtx p em{color:var(--gold);font-style:normal}
+
+.phase{background:var(--card);border:1px solid var(--border);border-left:4px solid #555;padding:15px;margin-bottom:10px;position:relative;border-radius:6px}
+.phase.active{border-left-color:var(--red);background:#1c0f0c}
+.phase.locked{opacity:.75}
+.ph-num{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--grey);text-transform:uppercase;margin-bottom:6px}
+.ph-name{font-family:var(--head);font-weight:700;font-size:24px;letter-spacing:.5px;margin-bottom:4px;line-height:1;text-transform:uppercase;color:var(--white)}
+.ph-when{font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:.5px;margin-bottom:9px}
+.ph-desc{font-size:12px;color:var(--light);line-height:1.55;margin-bottom:9px}
+.ph-desc strong{color:var(--white)}
+.ph-desc em{color:var(--gold);font-style:normal}
+.ph-badge{position:absolute;top:13px;right:13px;font-family:var(--mono);font-size:8px;letter-spacing:.5px;padding:3px 7px;border:1px solid;border-radius:3px}
+.badge-active{color:var(--red);border-color:#5a2418;background:#1c0f0c}
+.badge-locked{color:var(--grey);border-color:var(--border)}
+.badge-goal{color:var(--gold);border-color:#5e4f1f;background:#181308}
+
+.slip-card{background:#140d1f;border:1px solid #3f2f5c;padding:15px;margin-bottom:10px;border-radius:6px}
+.big-q{font-family:var(--head);font-weight:700;font-size:18px;letter-spacing:.5px;color:var(--purp);margin-bottom:9px;line-height:1.15;text-transform:uppercase}
+
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0 12px}
+.divider-l{flex:1;height:1px;background:var(--border)}
+.divider-t{font-family:var(--head);font-weight:700;font-size:16px;color:var(--red);letter-spacing:1px;text-transform:uppercase}
+.note{font-size:11px;color:var(--grey);line-height:1.55;font-style:italic;margin-top:8px}
+.identity{font-family:var(--head);font-weight:700;font-size:22px;letter-spacing:.5px;line-height:1.2;color:var(--white);text-align:center;padding:14px 0;text-transform:uppercase}
+.identity span{color:var(--red)}
+
+.flex-block{background:#101010;border:1px dashed #3a3a3a;padding:12px;margin-bottom:7px;border-radius:6px}
+.flex-block-t{font-family:var(--head);font-weight:700;font-size:14px;letter-spacing:.5px;color:var(--blue);margin-bottom:4px;text-transform:uppercase}
+.flex-block-p{font-size:11.5px;color:var(--light);line-height:1.5}
+.flex-block-p strong{color:var(--white)}
+
+.save-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--green);color:#000;font-family:var(--mono);font-size:11px;letter-spacing:.5px;padding:11px 20px;border-radius:8px;z-index:200;transition:transform .3s;font-weight:600}
+.save-toast.show{transform:translateX(-50%) translateY(0)}
+.storage-warn{background:#1c0f0c;border:1px solid #5a2418;padding:12px 14px;margin:11px 14px;border-radius:8px;font-size:11px;color:var(--light);line-height:1.6;display:none}
+.storage-warn.show{display:block}
+.storage-warn strong{color:#fff}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hlbl">// THE REBUILD · KOUROSH · YOUR OPERATING SYSTEM</div>
+  <div class="htitle">RUN THE <span>SHIP</span> AGAIN.</div>
+  <div class="hsub">No classes or job until August means <strong>nothing external is holding you up right now</strong> — so this schedule IS the scaffolding. <strong>Missing a step is expected. The building doesn't fall.</strong></div>
+</div>
+
+<input type="radio" class="ti" name="tabs" id="t1" checked>
+<input type="radio" class="ti" name="tabs" id="t2">
+<input type="radio" class="ti" name="tabs" id="t3">
+<input type="radio" class="ti" name="tabs" id="t4">
+<input type="radio" class="ti" name="tabs" id="t5">
+<input type="radio" class="ti" name="tabs" id="t6">
+<input type="radio" class="ti" name="tabs" id="t7">
+<input type="radio" class="ti" name="tabs" id="t8">
+
+<div class="storage-warn" id="storageWarn">⚠️ Saving isn't working in this view. On iPhone: tap <strong>Share</strong> in Safari, then <strong>Add to Home Screen</strong>, and open it from that icon. Don't use Private Browsing.</div>
+
+<div class="wrap">
+  <div class="tab-bar">
+    <label class="l1" for="t1">⚡ Today</label>
+    <label class="l2" for="t2">☀ Morning</label>
+    <label class="l3" for="t3">🌙 Night</label>
+    <label class="l4" for="t4">Day Plan</label>
+    <label class="l5" for="t5">Journal</label>
+    <label class="l6" for="t6">Phases</label>
+    <label class="l7" for="t7">Rules</label>
+    <label class="l8" for="t8">Slip</label>
+  </div>
+
+  <div class="panel p1">
+    <div class="day-head">
+      <div class="day-date" id="todayDate">TODAY</div>
+      <div class="streak-box">
+        <div class="streak"><div class="streak-n" id="streakCur">0</div><div class="streak-l">Streak</div></div>
+        <div class="streak"><div class="streak-n" id="streakBest">0</div><div class="streak-l">Best</div></div>
+        <div class="streak"><div class="streak-n" id="totalDays">0</div><div class="streak-l">Wins</div></div>
+      </div>
+    </div>
+    <div class="cal cal-red"><p><span class="hlt">PHASE 1 — THE FLOOR · DAYS 1–30</span>These are <strong>minimums, not targets.</strong> Hit the two reds — <strong>meds + 7:00 wake</strong> — and the day is a WIN, streak survives, even if nothing else happens. The job of this month: proving to yourself you keep promises again.</p></div>
+    <div class="day-progress">
+      <div class="dp-bar"><div class="dp-fill" id="dpFill"></div></div>
+      <div class="dp-txt" id="dpTxt">0 / 5 done today</div>
+    </div>
+    <div id="habitList"></div>
+    <div class="cal cal-green" style="margin-top:12px"><p><span class="hlt">FULL ROUTINES ARE IN THEIR OWN TABS</span>The <strong>☀ Morning</strong> and <strong>🌙 Night</strong> tabs hold your step-by-step sequences — tap each off as you go. Start your day in Morning; end it in Night.</p></div>
+    <div class="btn-row">
+      <label class="btn btn-red" for="t2">☀ Start Morning</label>
+      <label class="btn" for="t5">Open Journal</label>
+      <span class="btn" id="resetDayBtn">Reset Today</span>
+    </div>
+    <p class="note">Saves automatically to this device. Add to Home Screen for reliable tracking.</p>
+  </div>
+
+  <div class="panel p2">
+    <div class="sec">MORNING <span>ROUTINE</span></div>
+    <p class="secsub">9 steps around your 7:00 wake. Tap each as you do it. <strong style="color:var(--gold)">You won't do all of them every day — that's fine.</strong> Getting up at 7:00 and starting is the win.</p>
+    <div class="routine-head">
+      <div class="ct" style="margin-bottom:0">THE SEQUENCE</div>
+      <div class="routine-prog" id="amProg">0/9</div>
+    </div>
+    <div id="amList"></div>
+    <div class="cal cal-blue"><p><span class="hlt">WHY NO PHONE FIRST</span>The instant you open your phone, you hand your dopamine to someone else's agenda before setting your own — brutal for an ADHD brain. The phone-free 7:00–7:30 block is the single highest-leverage habit here. The world waits 30 minutes.</p></div>
+  </div>
+
+  <div class="panel p3">
+    <div class="sec">NIGHT <span>ROUTINE</span></div>
+    <p class="secsub">8 steps, built backward from 11:00 PM sleep. Tap each as you go. This protects tomorrow's 7:00 wake, which protects everything.</p>
+    <div class="routine-head">
+      <div class="ct" style="margin-bottom:0">THE WIND-DOWN</div>
+      <div class="routine-prog" id="pmProg">0/8</div>
+    </div>
+    <div id="pmList"></div>
+    <div class="cal cal-purp"><p><span class="hlt">THE WIND-DOWN IS WHERE WEED SNEAKS IN</span>Late, bored, winding down — the high-risk window. This gives it a <strong>shape</strong> so the default isn't "smoke and scroll." Weed wrecks the deep sleep you're rebuilding; keeping it out pays off the very next morning.</p></div>
+    <div class="btn-row">
+      <label class="btn btn-red" for="t5">→ Do Tonight's Journal First</label>
+    </div>
+  </div>
+
+  <div class="panel p4">
+    <div class="sec">THE <span>DAY PLAN</span></div>
+    <p class="secsub">The flexible middle — your self-made "job." Mornings + early afternoon for study/business/learning, done by 4–5pm, gym in the evening. Shaped without scripting every minute.</p>
+    <div class="cal cal-green"><p><span class="hlt">HOW TO USE THIS</span>Treat it like a job with a start, a lunch, and an end — the external container you lost when classes ended. The <strong>structure</strong> (when you work) is fixed. The <strong>content</strong> (what you work on) you pick each morning in 60 seconds.</p></div>
+    <div class="card">
+      <div class="ct">WEEKDAY SHAPE <span style="font-size:11px;color:var(--grey);font-family:var(--mono)">MON–FRI</span></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time" style="color:var(--green)">08:00</span><span class="step-name">Workday starts — pick today's 3 targets</span></div><div class="step-desc">60 sec: write 3 things to move today (1 school, 1 Prysmatik, 1 learning). The only "free will" decision, and it's tiny.</div></div></div>
+      <div class="flex-block"><div class="flex-block-t">⌚ 08:15–10:00 · Deep Block 1</div><div class="flex-block-p">Your sharpest hours (meds kicking in). Hardest/most-avoided task first. Phone in another room. Phase 1 minimum to count: <strong>one 25-min block.</strong></div></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time">10:00</span><span class="step-name">Break — 15 min: move, water, snack</span></div><div class="step-desc">Stand, walk, look out a window. Reset, don't escape.</div></div></div>
+      <div class="flex-block"><div class="flex-block-t">⌚ 10:15–12:00 · Deep Block 2</div><div class="flex-block-p">Second focused stretch — business, learning (AWS cert / LeetCode), or finishing block 1. If the morning went sideways, this is your reset.</div></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time" style="color:var(--gold)">12:00</span><span class="step-name">Lunch — real food, away from the desk</span></div><div class="step-desc">Protein-forward. 10-min walk after if you can.</div></div></div>
+      <div class="flex-block"><div class="flex-block-t">⌚ 13:00–16:00 · Afternoon (lighter)</div><div class="flex-block-p">Lower-intensity — admin, client comms, emails, lighter learning, planning. Energy dips here. Wrap the 3 targets. Done by 16:00–17:00.</div></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time" style="color:var(--red)">16:00</span><span class="step-name">Workday ENDS — close the laptop</span></div><div class="step-desc">Hard stop. A clean end makes the evening feel earned. You're done. No guilt.</div></div></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time" style="color:var(--red)">17:30</span><span class="step-name">🏋️ Gym (Mon/Tue/Thu/Fri)</span></div><div class="step-desc">Phase 1 minimum: walk in, ONE exercise, then you can leave. The promise is "I showed up." Wed/Sat/Sun = rest.</div></div></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time" style="color:var(--gold)">19:30</span><span class="step-name">Dinner + free evening</span></div><div class="step-desc">This is YOURS. Rest, music (K-RUSH), friends, girlfriend. You earned it by holding the day.</div></div></div>
+      <div class="step" style="cursor:default"><div class="step-body"><div class="step-top"><span class="step-time" style="color:var(--purp)">21:30</span><span class="step-name">🌙 Night routine begins → Night tab</span></div><div class="step-desc">Wind-down starts ~90 min before 11:00 sleep.</div></div></div>
+    </div>
+    <div class="card">
+      <div class="ct">WEEKEND SHAPE <span style="font-size:11px;color:var(--grey);font-family:var(--mono)">SAT–SUN</span></div>
+      <p style="font-size:12px;color:var(--light);line-height:1.65;margin-bottom:9px">Same <strong style="color:#fff">7:00 wake</strong> (weekends are where wake times die). Morning + night routines stay. Workday is OFF — weekends are for life, rest, fun, friends, music. <strong style="color:#fff">Going out is completely fine</strong> — the only rule is protect the next morning's 7:00. Sunday evening, 10 min to glance at the week and pick Monday's first target.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag tgn">7:00 holds</span><span class="tag tg">routines stay</span><span class="tag tb2">workday off</span><span class="tag tr">protect next AM</span></div>
+    </div>
+    <div class="cal cal-gold"><p><span class="hlt">WHEN AUGUST COMES</span>This shape absorbs the internship + classes — they fill the "workday" container that's currently self-directed. The morning routine, gym, and night routine wrap around them unchanged. You're using these two empty months to build the frame.</p></div>
+  </div>
+
+  <div class="panel p5">
+    <div class="sec">NIGHTLY <span>JOURNAL</span> <span class="autosave-tag" id="autosaveTag">SAVED ✓</span></div>
+    <p class="secsub">90 seconds. Where self-esteem rebuilds — by collecting evidence about who you're becoming. Auto-saves as you type.</p>
+    <div class="card">
+      <div class="j-field">
+        <label class="j-label">How was today, inside? <span>(tap one — no wrong answer)</span></label>
+        <div class="mood-row" id="moodRow">
+          <div class="mood" data-mood="1"><span class="mood-e">🌑</span>Rough</div>
+          <div class="mood" data-mood="2"><span class="mood-e">🌥️</span>Low</div>
+          <div class="mood" data-mood="3"><span class="mood-e">⛅</span>Okay</div>
+          <div class="mood" data-mood="4"><span class="mood-e">🌤️</span>Good</div>
+          <div class="mood" data-mood="5"><span class="mood-e">☀️</span>Flow</div>
+        </div>
+      </div>
+      <div class="j-field"><label class="j-label">One promise I kept today <span>(however small — the important one)</span></label><textarea id="jWin" placeholder="Even 'I got up at 7:00' counts. Especially that."></textarea></div>
+      <div class="j-field"><label class="j-label">Where did my head attack me? <span>(name it — naming drains it)</span></label><textarea id="jAttack" placeholder="e.g. 'told myself I'm behind, a fraud, wasting these months.'"></textarea></div>
+      <div class="j-field"><label class="j-label">Did I numb today? <span>(honest — just data, no judgment)</span></label><textarea id="jNumb" placeholder="If yes: what was I escaping? If no: what did I do instead?"></textarea></div>
+      <div class="j-field"><label class="j-label">One thing I'm grateful for or proud of</label><textarea id="jGood" placeholder="Trains the brain to scan for evidence you're okay."></textarea></div>
+      <div class="j-field"><label class="j-label">Tomorrow's ONE win <span>(pick one, keep it small)</span></label><input type="text" id="jTomorrow" placeholder="e.g. 'meds + 7:00 wake + walk into the gym.'"></div>
+      <div class="btn-row">
+        <span class="btn btn-red" id="saveJournalBtn">Save Entry</span>
+        <label class="btn" for="t1">← Today</label>
+      </div>
+    </div>
+    <div class="divider"><div class="divider-t">PAST ENTRIES</div><div class="divider-l"></div></div>
+    <div id="journalHistory"></div>
+  </div>
+
+  <div class="panel p6">
+    <div class="sec">THE <span>PHASES</span></div>
+    <p class="secsub">You don't jump to the full machine. You climb one earned step at a time. Each phase unlocks only when the one below is automatic.</p>
+    <div class="phase active">
+      <div class="ph-badge badge-active">YOU ARE HERE</div>
+      <div class="ph-num">Phase 1 · Days 1–30</div>
+      <div class="ph-name">THE FLOOR</div>
+      <div class="ph-when">Goal: make the basics automatic. Rebuild self-trust.</div>
+      <div class="ph-desc">Meds + 7:00 wake (non-negotiable), morning routine, one focus block, gym walk-in 4×/wk, weed-rule held, night routine. The whole job is proving you keep promises again. <strong>Resist adding more.</strong></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag tr">meds</span><span class="tag tr">7:00 wake</span><span class="tag tg">AM routine</span><span class="tag tg">1 block</span><span class="tag tg">gym walk-in</span><span class="tag tb2">PM routine</span></div>
+      <p class="note">Graduate when: two floor items hit ~26 of 30 days. Real, not perfect.</p>
+    </div>
+    <div class="phase locked">
+      <div class="ph-badge badge-locked">🔒 AFTER P1</div>
+      <div class="ph-num">Phase 2 · Days 31–75</div>
+      <div class="ph-name">THE BUILD</div>
+      <div class="ph-when">Goal: minimums become real volume.</div>
+      <div class="ph-desc">Gym walk-in → real 4-day split. One block → two 50-min deep blocks (school + Prysmatik). Add 2 cardio sessions. Start dialing nutrition. The body visibly changes; flow comes back online.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag tr">4-day split</span><span class="tag tg">2× deep work</span><span class="tag tb2">cardio 2×</span><span class="tag tgn">nutrition</span></div>
+    </div>
+    <div class="phase locked">
+      <div class="ph-badge badge-goal">🏁 THE GOAL</div>
+      <div class="ph-num">Phase 3 · Day 76+</div>
+      <div class="ph-name">BEAST MODE</div>
+      <div class="ph-when">The full machine — earned, sustainable, yours.</div>
+      <div class="ph-desc">Your uploaded beast-plan: 16-week recomp, half-marathon build, full split, dialed nutrition, sauna/hammam recovery. The difference: the foundation underneath is solid, so it runs instead of snapping. <em>The reward, not the starting line.</em></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag tr">full split</span><span class="tag tr">half marathon</span><span class="tag tg">recomp</span><span class="tag tg">recovery</span></div>
+      <p class="note">Your beast-plan.html slots in right here, unchanged. It's the summit.</p>
+    </div>
+  </div>
+
+  <div class="panel p7">
+    <div class="sec">THE <span>RULES</span></div>
+    <p class="secsub">The plan isn't the hard part — these are. Read them when you're about to break the chain, beat yourself up, or escalate too fast.</p>
+    <div class="card">
+      <div class="rule"><div class="rn">1</div><div class="rtx"><strong>Minimums are minimums, not targets.</strong><p>"One exercise," "25 minutes," "first 3 morning steps" — built to be too small to fail. The size <em>is</em> the strategy. You're casting a vote for "I follow through," not chasing a perfect day.</p></div></div>
+      <div class="rule"><div class="rn">2</div><div class="rtx"><strong>A missed step is data, not a verdict.</strong><p>THE one for you. You fear free will because a slip "fucks with your self-esteem." The fix isn't removing choice — it's experiencing, over and over, that you can miss a step and the building stands.</p></div></div>
+      <div class="rule"><div class="rn">3</div><div class="rtx"><strong>When you slip: next rep, no beating.</strong><p>You WILL miss days. The skill that changes your life is the <em>boring return</em>: "Missed it. Noted. Tomorrow I don't." The shame spiral is the real relapse — it costs more days than the slip.</p></div></div>
+      <div class="rule"><div class="rn">4</div><div class="rtx"><strong>Guilt is not accountability — it's burned fuel.</strong><p>Calling yourself a fraud feels like a standard. It's not. It drains the energy you need to act → couch more appealing → more shame. Drop the megaphone, keep the signal.</p></div></div>
+      <div class="rule"><div class="rn">5</div><div class="rtx"><strong>Don't escalate until the floor is automatic.</strong><p>The second flow returns, you'll want to stack ten habits and go monk mode. That perfectionism caused the binge. Hold Phase 1 the full 30 days. Flow is downstream of <em>consistency</em>, not intensity.</p></div></div>
+      <div class="rule"><div class="rn">6</div><div class="rtx"><strong>Detail the bookends, flex the middle.</strong><p>Morning and night get step-level detail because they're yours to control. The midday stays flexible because real life is unpredictable. Over-scripting the middle is just a finer stick to hit yourself with.</p></div></div>
+      <div class="rule"><div class="rn">7</div><div class="rtx"><strong>Protect the 7:00 wake above all.</strong><p>It's the lever that holds the week. Skip everything else before you skip this. A held wake time after a bad night beats a perfect day after a slept-in one.</p></div></div>
+    </div>
+    <div class="identity">YOU'RE NOT TRYING TO BE <span>HIM</span> AGAIN.<br>YOU'RE BUILDING SOMEONE <span>STURDIER</span>.</div>
+  </div>
+
+  <div class="panel p8">
+    <div class="sec">WHEN I <span>SLIP</span></div>
+    <p class="secsub">Open this the moment you've broken the chain, numbed, or feel the shame spiral starting. Run the protocol instead of the beating.</p>
+    <div class="slip-card"><div class="big-q">1 — Say the boring sentence</div><p style="font-size:13px;color:var(--light);line-height:1.65"><strong style="color:#fff">"I slipped. Noted. The next rep is the only thing that matters now."</strong> No "I always do this." No character audit. The slip is one data point; the spiral does the real damage.</p></div>
+    <div class="slip-card"><div class="big-q">2 — Name what you were escaping</div><p style="font-size:13px;color:var(--light);line-height:1.65">You didn't numb because you're weak — you did it to escape a feeling. Boredom (likely, with no structure right now)? Work felt threatening? Self-hatred you were muting? Name it:</p><textarea id="slipEscape" placeholder="What was I actually running from?" style="margin-top:10px"></textarea></div>
+    <div class="slip-card"><div class="big-q">3 — Shrink the comeback to absurd</div><p style="font-size:13px;color:var(--light);line-height:1.65">Do NOT plan a perfect day to "make up for it" — that's the swing that snaps. Smallest possible next rep: one glass of water, shoes on, open one file for 5 min. The tiny thing?</p><textarea id="slipNext" placeholder="My one tiny comeback rep, doable in the next 10 minutes:" style="margin-top:10px"></textarea></div>
+    <div class="slip-card"><div class="big-q">4 — The streak was never the point</div><p style="font-size:13px;color:var(--light);line-height:1.65">That number is a tool, not the goal. The goal is being a man who returns fast. A reset streak with a fast return is a <strong style="color:#fff">win.</strong> Reset without ceremony, take your tiny rep.</p></div>
+    <div class="btn-row">
+      <span class="btn btn-red" id="saveSlipBtn">Log This & Move On</span>
+      <label class="btn" for="t1">→ Take My Next Rep</label>
+    </div>
+    <div class="cal cal-blue" style="margin-top:14px"><p><span class="hlt">IF SLIPS STACK — OR IT GETS DARKER THAN "I DON'T LIKE MYSELF"</span>The substance-to-escape-self-hatred loop deepens quietly, especially in an unstructured stretch like these two months. Bring these slip logs to your therapist — exactly the material that makes sessions land. And if the self-hatred ever tips toward something heavier, that's not a backup plan, it's the move: tell your therapist, or reach out now. In Canada, call or text <strong>9-8-8</strong> any time.</p></div>
+  </div>
+</div>
+
+<div class="save-toast" id="toast">SAVED ✓</div>
+
+<script>
+"use strict";
+window.addEventListener('DOMContentLoaded', function(){
+  try {
+    var HABITS=[
+      {id:'meds',name:'Take Vyvanse',sub:'7:00, with the morning routine. The engine under everything.',tier:'FLOOR'},
+      {id:'wake',name:'Up at 7:00 AM',sub:'7 days, even after a bad night. The lever that holds the week.',tier:'FLOOR'},
+      {id:'gym',name:'Walk into the gym',sub:'Evening, 4x/wk. One exercise minimum. The vote is "I showed up."',tier:''},
+      {id:'block',name:'One 25-min focus block',sub:'Phone in another room. Timer on. School or Prysmatik.',tier:''},
+      {id:'weed',name:'Weed rule held',sub:'Not before gym, not before a block, not in the wind-down.',tier:'2'}
+    ];
+    var AM=[
+      {id:'am1',t:'7:00',n:'Alarm OFF — feet on floor, stand up',d:'Phone/alarm across the room so you must stand. Standing up is the whole battle won. Do not sit back down.'},
+      {id:'am2',t:'7:01',n:'Big glass of water (prepped last night)',d:'500ml. You wake dehydrated; fastest way to feel human and tell the body it is go-time.'},
+      {id:'am3',t:'7:03',n:'Take Vyvanse',d:'Now, every day, same time. Keep it by the water glass so it is impossible to forget. The non-negotiable.'},
+      {id:'am4',t:'7:05',n:'Phone stays DOWN — no scroll',d:'Hardest and most important rule. No feeds, notifications, or email for ~25 min. The world waits.'},
+      {id:'am5',t:'7:05',n:'5 min light movement / stretch',d:'Not a workout — wake the body. Neck rolls, hip openers, a few air squats. Blood moving while meds kick in.'},
+      {id:'am6',t:'7:15',n:'Wash face / cold splash + bathroom',d:'Cold water on the face is a real alertness trigger. Brush teeth. Draws the line between in bed and in the day.'},
+      {id:'am7',t:'7:25',n:"Write today's 3 targets",d:'60 sec on paper/notes: 1 school, 1 Prysmatik, 1 learning. Three. Your only free-will decision, tiny on purpose.'},
+      {id:'am8',t:'7:30',n:'Breakfast + coffee (phone now OK)',d:'Protein-forward (eggs/oats). NOW you can check your phone — but you set your agenda first. The whole point.'},
+      {id:'am9',t:'8:00',n:'Sit down — workday begins',d:'Move to your work spot. Deep Block 1 starts. The morning is won; everything now sits on a foundation you built.'}
+    ];
+    var PM=[
+      {id:'pm1',t:'21:30',n:'Hard stop on stimulating stuff',d:'Wind-down begins. No intense work, no doomscrolling, no arguments. Signal the brain the day is closing.'},
+      {id:'pm2',t:'21:35',n:"Prep tomorrow's morning",d:'Fill the water glass, set the Vyvanse beside it, lay out gym clothes. Remove every decision from your 7am self.'},
+      {id:'pm3',t:'21:45',n:'Nightly journal (90 sec)',d:'Open the Journal tab. Mood, one kept promise, where your head attacked, did you numb, gratitude, tomorrow win.'},
+      {id:'pm4',t:'22:00',n:'Phone on charge — OUT of the bedroom',d:'Plug it in across the room or another room. The #1 thing protecting both sleep AND your 7am wake. No phone in bed.'},
+      {id:'pm5',t:'22:05',n:'Dim the lights / shower if you want',d:'Lower lights to cue melatonin. A warm shower here helps you drop into sleep faster.'},
+      {id:'pm6',t:'22:15',n:'Wind-down activity (no screen)',d:'Read, stretch, light music, or just lie and breathe. The boring on-ramp to sleep — the slot weed used to fill.'},
+      {id:'pm7',t:'22:30',n:'Weed rule held tonight',d:'Not in the wind-down. It wrecks deep sleep and steals tomorrow 7am. Notice how much better the morning feels.'},
+      {id:'pm8',t:'23:00',n:'Lights out — asleep',d:'The target. Even if sleep is slow, horizontal in the dark with no phone is the win. Protects the 7:00 wake.'}
+    ];
+
+    var STORAGE_OK=true;
+    try{localStorage.setItem('rb_t','1');localStorage.removeItem('rb_t');}catch(e){STORAGE_OK=false;var w=document.getElementById('storageWarn');if(w)w.classList.add('show');}
+    var mem={};
+    function lsGet(k){if(STORAGE_OK){try{return localStorage.getItem(k);}catch(e){return mem[k]||null;}}return mem[k]||null;}
+    function lsSet(k,v){if(STORAGE_OK){try{localStorage.setItem(k,v);return;}catch(e){}}mem[k]=v;}
+
+    function pad(n){return (n<10?'0':'')+n;}
+    function keyFor(d){return 'rb_'+d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+    function todayKey(){return keyFor(new Date());}
+    function loadDay(k){try{var v=lsGet(k);return v?JSON.parse(v):{checks:{},am:{},pm:{},journal:null};}catch(e){return {checks:{},am:{},pm:{},journal:null};}}
+    function saveDay(k,d){lsSet(k,JSON.stringify(d));}
+    function toast(m){var t=document.getElementById('toast');if(!t)return;t.textContent=m||'SAVED ✓';t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1600);}
+
+    function renderHabits(){
+      var data=loadDay(todayKey());var list=document.getElementById('habitList');if(!list)return;list.innerHTML='';
+      HABITS.forEach(function(h){
+        var done=!!data.checks[h.id];
+        var el=document.createElement('div');el.className='hab'+(done?' done':'');
+        var tier=h.tier?'<div class="hab-tier'+(h.tier==='2'?' t2':'')+'">'+(h.tier==='2'?'TIER 2':h.tier)+'</div>':'';
+        el.innerHTML='<div class="hab-check">'+(done?'✓':'')+'</div><div class="hab-body"><div class="hab-name">'+h.name+'</div><div class="hab-sub">'+h.sub+'</div></div>'+tier;
+        el.addEventListener('click',function(){var d=loadDay(todayKey());d.checks[h.id]=!d.checks[h.id];saveDay(todayKey(),d);renderHabits();updateProgress();updateStreaks();});
+        list.appendChild(el);
+      });
+    }
+    function updateProgress(){
+      var data=loadDay(todayKey());var done=0;HABITS.forEach(function(h){if(data.checks[h.id])done++;});
+      var f=document.getElementById('dpFill');var t=document.getElementById('dpTxt');
+      if(f)f.style.width=Math.round(done/HABITS.length*100)+'%';
+      if(t)t.textContent=done+' / '+HABITS.length+' done today';
+    }
+    function renderRoutine(steps,field,listId,progId){
+      var data=loadDay(todayKey());var list=document.getElementById(listId);if(!list)return;list.innerHTML='';var done=0;
+      steps.forEach(function(s){
+        var d1=!!data[field][s.id];if(d1)done++;
+        var el=document.createElement('div');el.className='step'+(d1?' done':'');
+        el.innerHTML='<div class="step-check">'+(d1?'✓':'')+'</div><div class="step-body"><div class="step-top"><span class="step-time">'+s.t+'</span><span class="step-name">'+s.n+'</span></div><div class="step-desc">'+s.d+'</div></div>';
+        el.addEventListener('click',function(){var dd=loadDay(todayKey());dd[field][s.id]=!dd[field][s.id];saveDay(todayKey(),dd);renderRoutine(steps,field,listId,progId);});
+        list.appendChild(el);
+      });
+      var p=document.getElementById(progId);if(p)p.textContent=done+'/'+steps.length;
+    }
+    function dayCounts(d){return d.checks&&d.checks.meds&&d.checks.wake;}
+    function updateStreaks(){
+      var cur=0,best=0,total=0,run=0,i,d;var today=new Date();
+      for(i=0;i<365;i++){d=new Date(today);d.setDate(today.getDate()-i);if(dayCounts(loadDay(keyFor(d))))total++;}
+      for(i=0;i<365;i++){d=new Date(today);d.setDate(today.getDate()-i);if(dayCounts(loadDay(keyFor(d)))){cur++;}else{if(i===0)continue;break;}}
+      for(i=364;i>=0;i--){d=new Date(today);d.setDate(today.getDate()-i);if(dayCounts(loadDay(keyFor(d)))){run++;if(run>best)best=run;}else run=0;}
+      var a=document.getElementById('streakCur'),b=document.getElementById('streakBest'),c=document.getElementById('totalDays');
+      if(a)a.textContent=cur;if(b)b.textContent=best;if(c)c.textContent=total;
+    }
+
+    var selectedMood=null;
+    function initMood(){
+      var moods=document.querySelectorAll('.mood');
+      moods.forEach(function(m){m.addEventListener('click',function(){moods.forEach(function(x){x.classList.remove('sel');});m.classList.add('sel');selectedMood=m.getAttribute('data-mood');autosave();});});
+    }
+    function getVal(id){var e=document.getElementById(id);return e?e.value:'';}
+    function currentJournal(){return {mood:selectedMood,win:getVal('jWin'),attack:getVal('jAttack'),numb:getVal('jNumb'),good:getVal('jGood'),tomorrow:getVal('jTomorrow'),savedAt:new Date().toISOString()};}
+    var asTimer=null;
+    function autosave(){
+      var data=loadDay(todayKey());data.journal=currentJournal();saveDay(todayKey(),data);
+      var tag=document.getElementById('autosaveTag');if(tag){tag.classList.add('show');clearTimeout(asTimer);asTimer=setTimeout(function(){tag.classList.remove('show');},1400);}
+      renderHistory();
+    }
+    ['jWin','jAttack','jNumb','jGood','jTomorrow'].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener('input',function(){clearTimeout(asTimer);asTimer=setTimeout(autosave,600);});});
+    function loadJournalForm(){
+      var data=loadDay(todayKey());if(!data.journal)return;var j=data.journal;
+      if(j.mood){selectedMood=j.mood;document.querySelectorAll('.mood').forEach(function(x){if(x.getAttribute('data-mood')===j.mood)x.classList.add('sel');});}
+      ['Win','Attack','Numb','Good','Tomorrow'].forEach(function(f){var e=document.getElementById('j'+f);if(e)e.value=j[f.toLowerCase()]||'';});
+    }
+    var sj=document.getElementById('saveJournalBtn');if(sj)sj.addEventListener('click',function(){autosave();toast('JOURNAL SAVED ✓');});
+
+    var ME={1:'🌑',2:'🌥️',3:'⛅',4:'🌤️',5:'☀️'};
+    function esc(s){return (s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+    function renderHistory(){
+      var box=document.getElementById('journalHistory');if(!box)return;box.innerHTML='';var entries=[];var today=new Date();
+      for(var i=0;i<120;i++){var d=new Date(today);d.setDate(today.getDate()-i);var data=loadDay(keyFor(d));if(data.journal&&(data.journal.win||data.journal.attack||data.journal.good||data.journal.mood||data.journal.tomorrow))entries.push({date:d,j:data.journal});}
+      if(!entries.length){box.innerHTML='<p class="note">No entries yet. Tonight is entry #1.</p>';return;}
+      entries.forEach(function(e){
+        var el=document.createElement('div');el.className='card';el.style.padding='13px';
+        var ds=e.date.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+        var h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><span style="font-family:var(--head);font-weight:700;font-size:16px;letter-spacing:.5px;color:var(--white)">'+ds+'</span><span style="font-size:18px">'+(e.j.mood?ME[e.j.mood]:'')+'</span></div>';
+        if(e.j.win)h+='<div style="margin-bottom:5px"><span style="font-family:var(--mono);font-size:8px;color:var(--green);letter-spacing:.5px">KEPT:</span> <span style="font-size:12px;color:var(--light)">'+esc(e.j.win)+'</span></div>';
+        if(e.j.attack)h+='<div style="margin-bottom:5px"><span style="font-family:var(--mono);font-size:8px;color:var(--red);letter-spacing:.5px">ATTACK:</span> <span style="font-size:12px;color:var(--grey)">'+esc(e.j.attack)+'</span></div>';
+        if(e.j.good)h+='<div style="margin-bottom:5px"><span style="font-family:var(--mono);font-size:8px;color:var(--gold);letter-spacing:.5px">GRATEFUL:</span> <span style="font-size:12px;color:var(--light)">'+esc(e.j.good)+'</span></div>';
+        if(e.j.tomorrow)h+='<div><span style="font-family:var(--mono);font-size:8px;color:var(--blue);letter-spacing:.5px">TMRW:</span> <span style="font-size:12px;color:var(--light)">'+esc(e.j.tomorrow)+'</span></div>';
+        el.innerHTML=h;box.appendChild(el);
+      });
+    }
+
+    var ss=document.getElementById('saveSlipBtn');
+    if(ss)ss.addEventListener('click',function(){
+      var slips=[];try{var v=lsGet('rb_slips');if(v)slips=JSON.parse(v);}catch(e){}
+      slips.unshift({date:new Date().toISOString(),escape:getVal('slipEscape'),next:getVal('slipNext')});
+      lsSet('rb_slips',JSON.stringify(slips));
+      var se=document.getElementById('slipEscape'),sn=document.getElementById('slipNext');if(se)se.value='';if(sn)sn.value='';
+      toast('LOGGED — NOW TAKE THE REP ✓');
+    });
+
+    var rb=document.getElementById('resetDayBtn');
+    if(rb)rb.addEventListener('click',function(){var d=loadDay(todayKey());d.checks={};saveDay(todayKey(),d);renderHabits();updateProgress();updateStreaks();toast('TODAY RESET');});
+
+    var dd=document.getElementById('todayDate');
+    if(dd)dd.innerHTML='<span>●</span> '+new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}).toUpperCase();
+
+    renderHabits();updateProgress();updateStreaks();
+    renderRoutine(AM,'am','amList','amProg');
+    renderRoutine(PM,'pm','pmList','pmProg');
+    initMood();loadJournalForm();renderHistory();
+  } catch(err){
+    var n=document.createElement('div');
+    n.style.cssText='background:#FF4530;color:#fff;padding:14px;font-family:monospace;font-size:11px;margin:12px;border-radius:6px';
+    n.textContent='Init error: '+(err&&err.message?err.message:err);
+    document.body.insertBefore(n,document.body.firstChild);
+  }
+});
+</script>
+</body>
+</html>
+
+
